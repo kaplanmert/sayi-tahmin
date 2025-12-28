@@ -9,15 +9,19 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 const server = http.createServer(app);
 
-// CORS ayarları
+// CORS ayarları - Production için güncellenmiş
 const io = new Server(server, {
-  cors: {
+    cors: {
+      origin: process.env.CLIENT_URL || "http://localhost:3000",
+      methods: ["GET", "POST"],
+      credentials: true
+    }
+  });
+  
+  app.use(cors({
     origin: process.env.CLIENT_URL || "http://localhost:3000",
-    methods: ["GET", "POST"]
-  }
-});
-
-app.use(cors());
+    credentials: true
+  }));
 app.use(express.json());
 
 // Ana sayfa (bilgilendirme)
